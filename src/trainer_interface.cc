@@ -340,6 +340,8 @@ END:
         pool->Schedule([&, n]() {
           for (size_t i = n; i < sentences_.size();
                i += trainer_spec_.num_threads()) {
+            if(i%1000000==0)
+              LOG(INFO) << "Finished normalizing" << i << " sentences";
             auto *s = &sentences_[i].first;
             *s = meta_pieces_matcher.GlobalReplace(normalizer.Normalize(*s),
                                                    kUPPBoundaryStr);
