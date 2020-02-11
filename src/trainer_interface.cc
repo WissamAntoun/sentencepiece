@@ -351,6 +351,8 @@ END:
     }
 
     for (size_t i = 0; i < sentences_.size(); ++i) {
+      if(i%1000000==0)
+              LOG(INFO) << "Finished clearing " << i << " sentences";
       auto *s = &sentences_[i].first;
       CHECK_OR_RETURN(s->find(" ") == std::string::npos)
           << "Normalized string must not include spaces";
@@ -364,8 +366,11 @@ END:
   // Count character frequencies.
   int64 all_chars_count = 0;
   std::unordered_map<char32, int64> chars_count;
+  int64 ii=0;
   for (const auto &w : sentences_) {
     for (const char32 c : string_util::UTF8ToUnicodeText(w.first)) {
+      if(ii%1000000==0)
+              LOG(INFO) << "Finished Counting Chars in " << ii << " sentences";
       if (!string_util::IsValidCodepoint(c)) continue;
       if (c == 0x0000) {
         LOG(INFO)
