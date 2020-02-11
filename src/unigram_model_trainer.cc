@@ -107,7 +107,7 @@ TrainerModel::SentencePieces Trainer::MakeSeedSentencePieces() const {
   constexpr char32 kSentenceBoundary = 0x0000;
   int64 ii=0;
   for (const auto &w : sentences_) {
-    if(ii++%1000000){
+    if(ii++%1000000==0){
       LOG(INFO) << " Merged "<< ii << " sentences";
     }
     for (const auto &c : string_util::UTF8ToUnicodeText(w.first)) {
