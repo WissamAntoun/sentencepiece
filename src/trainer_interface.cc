@@ -369,7 +369,7 @@ END:
   int64 ii=0;
   for (const auto &w : sentences_) {
     for (const char32 c : string_util::UTF8ToUnicodeText(w.first)) {
-      if(ii%1000000==0)
+      if(ii++%1000000==0)
               LOG(INFO) << "Finished Counting Chars in " << ii << " sentences";
       if (!string_util::IsValidCodepoint(c)) continue;
       if (c == 0x0000) {
@@ -414,9 +414,12 @@ END:
 
   // Replaces rare characters (characters not included in required_chars_)
   // with kUNKChar.
+  ii=0;
   for (auto &w : sentences_) {
     string_util::UnicodeText uw2;
     for (const char32 c : string_util::UTF8ToUnicodeText(w.first)) {
+      if(ii++%1000000==0)
+        LOG(INFO) << "Finished Replacing rara chars in " << ii << " sentences";
       if (port::ContainsKey(required_chars_, c)) {
         uw2.push_back(c);
       } else {
