@@ -368,9 +368,9 @@ END:
   std::unordered_map<char32, int64> chars_count;
   int64 ii=0;
   for (const auto &w : sentences_) {
-    for (const char32 c : string_util::UTF8ToUnicodeText(w.first)) {
-      if(ii++%1000000==0)
-              LOG(INFO) << "Finished Counting Chars in " << ii << " sentences";
+    if(ii++%1000000==0)
+      LOG(INFO) << "Finished Counting Chars in " << ii << " sentences";
+    for (const char32 c : string_util::UTF8ToUnicodeText(w.first)) {      
       if (!string_util::IsValidCodepoint(c)) continue;
       if (c == 0x0000) {
         LOG(INFO)
@@ -416,10 +416,10 @@ END:
   // with kUNKChar.
   ii=0;
   for (auto &w : sentences_) {
+    if(ii++%1000000==0)
+      LOG(INFO) << "Finished Replacing rara chars in " << ii << " sentences";
     string_util::UnicodeText uw2;
-    for (const char32 c : string_util::UTF8ToUnicodeText(w.first)) {
-      if(ii++%1000000==0)
-        LOG(INFO) << "Finished Replacing rara chars in " << ii << " sentences";
+    for (const char32 c : string_util::UTF8ToUnicodeText(w.first)) {      
       if (port::ContainsKey(required_chars_, c)) {
         uw2.push_back(c);
       } else {
